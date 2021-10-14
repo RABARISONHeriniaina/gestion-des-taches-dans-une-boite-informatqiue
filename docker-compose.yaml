@@ -1,21 +1,46 @@
-version: '3'
-
+version: "3.7"
 services:
-###> doctrine/doctrine-bundle ###
   database:
-    image: postgres:${POSTGRES_VERSION:-13}-alpine
+    image: "mysql:latest"
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-app}
-      # You should definitely change the password in production
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ChangeMe}
-      POSTGRES_USER: ${POSTGRES_USER:-symfony}
+      MYSQL_ROOT_PASSWORD: password # the password to PHPMYADMIN
+      MYSQL_DATABASE: gtdbi # nom de la database
+      # MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    restart: always
     volumes:
-      - db-data:/var/lib/postgresql/data:rw
-      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
-      # - ./docker/db/data:/var/lib/postgresql/data:rw
-###< doctrine/doctrine-bundle ###
+      - db-data:/var/lib/mysql # il stoke notre base donnee dans le ...
+    networks:
+      - dev
+    ports:
+      # To allow the host machine to access the ports below, modify the lines below.
+      # For example, to allow the host to connect to port 3306 on the container, you would change
+      # "3306" to "3306:3306". Where the first port is exposed to the host and the second is the container port.
+      # See https://docs.docker.com/compose/compose-file/#ports for more information.
+      - "3306"
 
+  # on utilise le service mailcatcher qui sera accessible dans le port : localhost:1080
+  mailer:
+    image: schickling/mailcatcher
+    ports: [1025, 1080]
+
+  # on associe notre base de donnee mysql avec phpmyadmin
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    depends_on:
+      - database
+    ports:
+      - 8080:80
+    links:
+      - database
+    environment:
+      PMA_HOST: database
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    networks:
+      - dev
+
+networks:
+  dev:
 volumes:
-###> doctrine/doctrine-bundle ###
   db-data:
-###< doctrine/doctrine-bundle ###
