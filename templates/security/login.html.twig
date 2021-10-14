@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>GTDBI | Authentification</title>
+
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+		<link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+		<link rel="stylesheet" href="/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+		<link rel="stylesheet" href="/dist/css/adminlte.min.css">
+	</head>
+	<body class="hold-transition login-page">
+		<div class="login-box">
+			<div class="card card-outline card-primary">
+				<div class="card-header text-center">
+					<a href="/index2.html" class="h1">
+						<b>Gestion</b>TDBI</a>
+				</div>
+				<div class="card-body">
+					<p class="login-box-msg">Authentifier pour beneficier</p>
+
+					<form method="post">
+						{% if error %}
+							<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+						{% endif %}
+
+						{% if app.user %}
+							<div class="mb-3">
+								You are logged in as
+								{{ app.user.username }},
+								<a href="{{ path('app_logout') }}">Logout</a>
+							</div>
+						{% endif %}
+
+						<div class="input-group mb-3">
+							<input type="email" placeholder="Email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+							<div class="input-group-append">
+								<div class="input-group-text">
+									<span class="fas fa-envelope"></span>
+								</div>
+							</div>
+						</div>
+						<div class="input-group mb-3">
+							<input type="password" name="password" placeholder="Mot de Passe" id="inputPassword" class="form-control" autocomplete="current-password" required>
+							<div class="input-group-append">
+								<div class="input-group-text">
+									<span class="fas fa-lock"></span>
+								</div>
+							</div>
+						</div>
+
+						<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+						<div class="row">
+							<div class="col-8">
+								<div class="icheck-primary">
+									<input type="checkbox" id="remember" name="_remember_me">
+									<label for="remember">
+										Remember Me
+									</label>
+								</div>
+							</div>
+							<!-- /.col -->
+							<div class="col-4">
+								<button type="submit" class="btn btn-primary btn-block">Valider</button>
+							</div>
+							<!-- /.col -->
+						</div>
+					</form>
+
+					<div class="social-auth-links text-center mt-2 mb-3">
+						<a href="javascript:alert('Fonctionnalite a venir')" class="btn btn-block btn-primary">
+							<i class="fab fa-facebook mr-2"></i>
+							Se connecter avec Facebook
+						</a>
+						<a href="javascript:alert('Fonctionnalite a venir')" class="btn btn-block btn-danger">
+							<i class="fab fa-google-plus mr-2"></i>
+							Se connecter avec Google
+						</a>
+					</div>
+
+					<p class="mb-1">
+						<a href="javascript:alert('Mot de passe oublie')">J'ai oublie mon mot de passe</a>
+					</p>
+					<p class="mb-0">
+						<a href="javascript:alert('Inscription')" class="text-center">Inscription pour un nouveau membre</a>
+					</p>
+				</div>
+			</div>
+		</div>
+
+		<script src="/plugins/jquery/jquery.min.js"></script>
+		<script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+		<script src="/dist/js/adminlte.min.js"></script>
+	</body>
+</html>
