@@ -1,0 +1,24 @@
+<div class="modal fade" id="modal-edit{{ job.id }}">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Modification</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<form id="form_edit{{ job.id }}" method="post" action="{{ path('job_edit', {'id': job.id}) }}">
+					<input type="hidden" name="_token_edit" value="{{ csrf_token('edit' ~ job.id) }}">
+					<input type="text" name="name" value="{{ job.name }}" class="form-control">
+					<input type="hidden" name="id" value="{{ job.id }}">
+				</form>
+
+			</div>
+			<div class=" modal-footer justify-content-between">
+				<button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Fermer</button>
+				<button type="button" onclick="document.getElementById('form_edit{{ job.id }}').submit()" class="btn btn-sm btn-primary">Valider la modification</button>
+			</div>
+		</div>
+	</div>
+</div>

@@ -6,6 +6,7 @@ use App\Repository\JobRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=JobRepository::class)
@@ -22,6 +23,7 @@ class Job
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min=6,minMessage="Plus de 6 caracteres")
      */
     private $name;
 
@@ -80,5 +82,10 @@ class Job
         }
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->getName();
     }
 }

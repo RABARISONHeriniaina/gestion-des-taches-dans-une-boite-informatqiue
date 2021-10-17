@@ -12,10 +12,10 @@ class TaskController extends AbstractController
 {
     /**
      * @Route("/task", name="task_home")
-     * @Security("is_granted('ROLE_ADMIN')")
      */
     public function index(): Response
     {
+        // * @Security("is_granted('ROLE_ADMIN')")
         return $this->render('task/index.html.twig', [
             'controller_name' => 'TaskController',
         ]);

@@ -1,0 +1,136 @@
+{% extends 'layouts/base.html.twig' %}
+
+
+{% block body %}
+
+	<div class="content-wrapper">
+
+		<div class="content">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12 mt-3">
+						<div class="callout callout-info">
+							<h5>
+								<i class="fas fa-info"></i>
+								Poste:
+							</h5>
+							Le tableau ci-dessous nous affiche les differentes postes disponible dans notre base de donnees ! ENJOY
+						</div>
+					</div>
+					{% include "layouts/partials/_flashMessage.html.twig" %}
+					<div class="col-lg-8">
+						<div class="card card-primary card-outline">
+							<div class="card-header">
+								<h3 class="card-title">Les postes disponibles</h3>
+								<div class="card-tools">
+									<div class="input-group input-group-sm" style="width: 150px;">
+										<input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+										<div class="input-group-append">
+											<button type="submit" class="btn btn-default">
+												<i class="fas fa-search"></i>
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="card-body">
+								<table class="table table-bordered table-hover table-striped">
+									<thead>
+										<tr>
+											<th>Nom</th>
+											<th>Nombre Employeur</th>
+											<th>Options</th>
+										</tr>
+									</thead>
+									<tbody>
+										{% for job in jobs %}
+											<tr>
+												<td>{{ job.name }}</td>
+												<td>{{ job.employees | length }}</td>
+												<td>
+													<a class="btn btn-sm btn-primary" href="{{ path('job_show', {'id': job.id}) }}">
+														<i class="fas fa-folder"></i>
+														Visualiser</a>
+													{# href="{{ path('job_edit', {'id': job.id}) }}" #}
+													<button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#modal-edit{{ job.id }}">
+														<i class="fas fa-pencil-alt"></i>
+														Modifier</button>
+													{% include "job/_modalEdit.html.twig" %}
+													<a class="btn btn-sm btn-danger" href="#" onclick="event.preventDefault();return confirm('voulez-vous vraiment supprimer ce poste?') && document.getElementById('form_delete{{ job.id }}').submit()">
+														<i class="fas fa-trash"></i>
+														Supprimer</a>
+													{{ include('job/_delete_form.html.twig') }}
+												</td>
+											</tr>
+										{% else %}
+											<tr>
+												<td colspan="3">Aucun donnees trouvees</td>
+											</tr>
+										{% endfor %}
+									</tbody>
+								</table>
+							</div>
+							<div class="card-footer">
+								<div class="card-tools">
+									<ul class="pagination float-right">
+										<li class="page-item">
+											<a class="page-link" href="#">&laquo;</a>
+										</li>
+										<li class="page-item">
+											<a class="page-link" href="#">1</a>
+										</li>
+										<li class="page-item">
+											<a class="page-link" href="#">2</a>
+										</li>
+										<li class="page-item">
+											<a class="page-link" href="#">3</a>
+										</li>
+										<li class="page-item">
+											<a class="page-link" href="#">4</a>
+										</li>
+										<li class="page-item">
+											<a class="page-link" href="#">5</a>
+										</li>
+										<li class="page-item">
+											<a class="page-link" href="#">&raquo;</a>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4">
+						<div class="callout callout-warning">
+							<h5>
+								<i class="fas fa-edit"></i>
+								Note:
+							</h5>
+							Respecter les validations si vous voulez ajouter un nouveau poste
+						</div>
+						<div class="card card-info">
+							<div class="card-header">
+								<h3 class="card-title">Ajouter un nouveau poste</h3>
+								<div class="card-tools">
+									<button type="button" id="btnAdd" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+										<i class="fas fa-minus"></i>
+									</button>
+								</div>
+							</div>
+							<div class="card-body">
+								{{ form_start(form) }}
+								{{ form_widget(form) }}
+								<button class="btn btn-success btn-sm float-right">
+									<i class="fa fa-copy"></i>
+									| Ajouter
+								</button>
+								{{ form_end(form) }}
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
