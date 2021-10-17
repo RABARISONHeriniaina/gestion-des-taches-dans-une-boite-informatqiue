@@ -38,7 +38,7 @@ class LoadDataGtbiCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $jobs[] = [];
-        // creation d'un job
+        // creation d'un poste
         for ($i = 1; $i <= 10; $i++) {
             $job = new Job();
             $job->setName("JOB-" . $i);
@@ -72,6 +72,10 @@ class LoadDataGtbiCommand extends Command
             $this->entityManagerInterface->persist($employee);
             $employees[] = $employee;
         }
+
+        // creation d'une tache
+
+        // creation d'une pause dans une tache
 
 
 

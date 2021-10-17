@@ -1,0 +1,80 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block body %}
+	<div class="content-wrapper">
+
+		<div class="content">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12 mt-3 h2 text-primary">Affichage d'un employee</div>
+					<div class="col-lg-12 mt-3">
+						<a class="btn btn-info" href="{{ path('employee_index') }}">Retour a la liste</a>
+
+						<a class="btn btn-danger" href="{{ path('employee_edit', {'id': employee.id}) }}">Modifier</a>
+
+						<div class="col-lg-12 mt-3">
+							<table class="table table-bordered table-hover table-striped">
+								<tbody>
+									<tr>
+										<th>Id</th>
+										<td>{{ employee.id }}</td>
+									</tr>
+									<tr>
+										<th>Email</th>
+										<td>{{ employee.email }}</td>
+									</tr>
+									<tr>
+										<th>Roles</th>
+										<td>{{ employee.roles ? employee.roles|json_encode : '' }}</td>
+									</tr>
+									<tr>
+										<th>Password</th>
+										<td>{{ employee.password }}</td>
+									</tr>
+									<tr>
+										<th>Skills</th>
+										<td>{{ employee.skills }}</td>
+									</tr>
+									<tr>
+										<th>Experiences</th>
+										<td>{{ employee.experiences }}</td>
+									</tr>
+									<tr>
+										<th>Sex</th>
+										<td>{{ employee.sex }}</td>
+									</tr>
+									<tr>
+										<th>Salary</th>
+										<td>{{ employee.salary }}</td>
+									</tr>
+									<tr>
+										<th>TakenAt</th>
+										<td>{{ employee.takenAt ? employee.takenAt|date('Y-m-d H:i:s') : '' }}</td>
+									</tr>
+									<tr>
+										<th>CreatedAt</th>
+										<td>{{ employee.createdAt ? employee.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+									</tr>
+									<tr>
+										<th>UpdatedAt</th>
+										<td>{{ employee.updatedAt ? employee.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+									</tr>
+									<tr>
+										<th>FirstName</th>
+										<td>{{ employee.firstName }}</td>
+									</tr>
+									<tr>
+										<th>LastName</th>
+										<td>{{ employee.lastName }}</td>
+									</tr>
+								</tbody>
+							</table>
+							{{ include('employee/_delete_form.html.twig') }}</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+{% endblock %}

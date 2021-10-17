@@ -1,6 +1,5 @@
 {% extends 'layouts/base.html.twig' %}
 
-
 {% block body %}
 
 	<div class="content-wrapper">
@@ -46,7 +45,7 @@
 									<tbody>
 										{% for job in jobs %}
 											<tr>
-												<td>{{ job.name }}</td>
+												<td>{{ job.name | u.truncate(25, '...') }}</td>
 												<td>{{ job.employees | length }}</td>
 												<td>
 													<a class="btn btn-sm btn-primary" href="{{ path('job_show', {'id': job.id}) }}">

@@ -18,7 +18,7 @@ services:
       # See https://docs.docker.com/compose/compose-file/#ports for more information.
       - "3306"
 
-  # on utilise le service mailcatcher qui sera accessible dans le port : localhost:1080
+  # on utilise le service mailcatcher qui sera accessible dans le port : localhost:1080 -> 127.0.0.1:49154
   mailer:
     image: schickling/mailcatcher
     ports: [1025, 1080]
