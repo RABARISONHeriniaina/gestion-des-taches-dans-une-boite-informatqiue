@@ -4,6 +4,8 @@ namespace App\Command;
 
 use App\Entity\Employee;
 use App\Entity\Job;
+use App\Entity\Task;
+use DateTimeImmutable;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -74,6 +76,20 @@ class LoadDataGtbiCommand extends Command
         }
 
         // creation d'une tache
+
+        $tasks[] = [];
+        for ($k = 1; $k < 130; $k++) {
+            $random_employee = rand(1, 24);
+            $task = new Task();
+            $task->setSubject("Task Subject : " . $k)
+                ->setBeginAt(new \DateTimeImmutable())
+                ->setEndAt(new DateTimeImmutable("tomorrow"))
+                ->setEmployee($employees[$random_employee])
+                ->setIsComplished(false)
+                ->setIsInProgress(false);
+            $this->entityManagerInterface->persist($task);
+            $tasks[] = $task;
+        }
 
         // creation d'une pause dans une tache
 

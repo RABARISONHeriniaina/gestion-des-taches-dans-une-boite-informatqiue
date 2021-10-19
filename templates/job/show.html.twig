@@ -55,7 +55,6 @@
 										</tr>
 									</thead>
 									<tbody>
-										{% set employees = job.employees %}
 										{% for employee in employees %}
 											<tr>
 												<td>{{ employee.fullName | u.truncate(15, '...')}}</td>
@@ -73,38 +72,16 @@
 											</tr>
 										{% else %}
 											<tr>
-												<td colspan="3">Aucun donnees trouvees</td>
+												<td colspan="8" class="text-center">Aucun donnees trouvees</td>
 											</tr>
 										{% endfor %}
 									</tbody>
 								</table>
 							</div>
 							<div class="card-footer">
-								<div class="card-tools">
-									<ul class="pagination float-right">
-										<li class="page-item">
-											<a class="page-link" href="#">&laquo;</a>
-										</li>
-										<li class="page-item">
-											<a class="page-link" href="#">1</a>
-										</li>
-										<li class="page-item">
-											<a class="page-link" href="#">2</a>
-										</li>
-										<li class="page-item">
-											<a class="page-link" href="#">3</a>
-										</li>
-										<li class="page-item">
-											<a class="page-link" href="#">4</a>
-										</li>
-										<li class="page-item">
-											<a class="page-link" href="#">5</a>
-										</li>
-										<li class="page-item">
-											<a class="page-link" href="#">&raquo;</a>
-										</li>
-									</ul>
-								</div>
+								<div class="card-tools float-right">
+									{% do employees.setPageRange(2) %}
+									{{ knp_pagination_render(employees, "layouts/partials/_pagination.html.twig") }}</div>
 							</div>
 						</div>
 					</div>

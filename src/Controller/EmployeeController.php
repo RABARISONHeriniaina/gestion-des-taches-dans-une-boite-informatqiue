@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Employee;
 use App\Form\EmployeeType;
 use App\Repository\EmployeeRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,10 +19,18 @@ class EmployeeController extends AbstractController
     /**
      * @Route("/", name="employee_index", methods={"GET"})
      */
-    public function index(EmployeeRepository $employeeRepository): Response
+    public function index(EmployeeRepository $employeeRepository, Request $request, PaginatorInterface $paginatorInterface): Response
     {
+
+        $employees = $paginatorInterface->paginate(
+            $employeeRepository->findAll(),
+            $request->query->get("page", 1),
+            5
+        );
+
+
         return $this->render('employee/index.html.twig', [
-            'employees' => $employeeRepository->findAll(),
+            'employees' => $employees,
         ]);
     }
 
@@ -51,11 +60,15 @@ class EmployeeController extends AbstractController
     /**
      * @Route("/{id}", name="employee_show", methods={"GET"})
      */
-    public function show(Employee $employee): Response
+    public function show(Employee $employee, PaginatorInterface $paginatorInterface, Request $request): Response
     {
-        return $this->render('employee/show.html.twig', [
-            'employee' => $employee,
-        ]);
+        $tasks = $paginatorInterface->paginate(
+            $employee->getTask(),
+            $request->query->get("page", 1),
+            10
+        );
+
+        return $this->render('employee/show.html.twig', compact('employee', 'tasks'));
     }
 
     /**
@@ -83,7 +96,7 @@ class EmployeeController extends AbstractController
      */
     public function delete(Request $request, Employee $employee): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$employee->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $employee->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($employee);
             $entityManager->flush();

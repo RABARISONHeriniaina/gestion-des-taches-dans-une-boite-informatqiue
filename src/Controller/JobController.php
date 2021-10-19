@@ -6,6 +6,7 @@ use App\Entity\Job;
 use App\Form\JobType;
 use App\Repository\JobRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,15 +21,22 @@ class JobController extends AbstractController
     /**
      * @Route("/", name="job_index", methods={"GET"})
      */
-    public function index(JobRepository $jobRepository, Request $request): Response
+    public function index(JobRepository $jobRepository, Request $request, PaginatorInterface $paginatorInterface): Response
     {
         $job = new Job();
         $form = $this->createForm(JobType::class, $job, [
             'action' => $this->generateUrl('job_new'),
             'method' => 'POST'
         ]);
+
+        $jobs = $paginatorInterface->paginate(
+            $jobRepository->findAll(),
+            $request->query->get("page", 1),
+            5
+        );
+
         return $this->render('job/index.html.twig', [
-            'jobs' => $jobRepository->findAll(),
+            'jobs' => $jobs,
             'form' => $form->createView(),
         ]);
     }
@@ -59,11 +67,14 @@ class JobController extends AbstractController
     /**
      * @Route("/{id}", name="job_show", methods={"GET"})
      */
-    public function show(Job $job): Response
+    public function show(Job $job, PaginatorInterface $paginatorInterface, Request $request): Response
     {
-        return $this->render('job/show.html.twig', [
-            'job' => $job,
-        ]);
+        $employees = $paginatorInterface->paginate(
+            $job->getEmployees(),
+            $request->query->get("page", 1),
+            5
+        );
+        return $this->render('job/show.html.twig', compact('job', 'employees'));
     }
 
     /**
